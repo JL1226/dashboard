@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>JerseyTest</groupId>
+    <artifactId>JerseyTest</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <properties>
+        <!-- Sonar -->
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.jacoco.reportPath>/Users/apple/IdeaProjects/JerseyTest/target/jacoco-it.exec</sonar.jacoco.reportPath>
+        <sonar.language>java</sonar.language>
+    </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>Codehaus Snapshots</id>
+            <url>http://snapshots.repository.codehaus.org/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>  <!-- Workaround for MNG-2974, see note below -->
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+    <dependencies>
+
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>1.8</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.sonar</groupId>-->
+            <!--<artifactId>sonar-maven3-plugin</artifactId>-->
+            <!--<version>5.1</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.codehaus.sonar</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>5.1</version>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <plugins>
+
+            <plugin>
+
+                <groupId>org.codehaus.mojo</groupId>
+
+                <artifactId>tomcat-maven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                <ignorePackaging>true</ignorePackaging>
+                    <port>9093</port>
+                </configuration>
+
+            </plugin>
+
+            <plugin>
+
+                <artifactId>maven-compiler-plugin</artifactId>
+
+                <configuration>
+
+                    <source>1.5</source>
+
+                    <target>1.5</target>
+
+                </configuration>
+
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.2.201409121644</version>
+                <configuration>
+                    <append>true</append>
+                    <propertyName>jacoco.agent.argLine</propertyName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals><goal>prepare-agent</goal></goals>
+                        <configuration>
+                            <destFile>${project.build.directory}/target/jacoco-it.exec</destFile>
+                            <output>tcpserver</output>
+                            <address>*</address>
+                            <port>6300</port>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>sonar-maven-plugin</artifactId>-->
+                <!--<version>2.2</version>-->
+
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>sonar-maven-plugin</artifactId>-->
+                <!--<version>2.2</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>s2</id>-->
+                        <!--<phase>install</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>sonar</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <includes>
+                        <include>**/*.java</include>
+                    </includes>
+
+                    <skipTests>false</skipTests>
+                    <forkCount>2</forkCount>
+
+
+                </configuration>
+            </plugin>
+        </plugins>
+            </build>
+</project>
