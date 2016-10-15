@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+</head>
+<body>
+    <script type="text/javascript">
+        window.onload = function()
+        {
+                $.ajax({
+                        url:"http://localhost:8099/chartData",
+                        method:"GET",
+
+                        success:function(data){
+                            console.log("success")
+                            var dataset = [];
+                            for(var i in data.charts)
+                            {
+                              dataset.push(data.charts[i]);
+                            }
+                            var chart = new CanvasJS.Chart("chartContainer",
+                            {
+                                title:{
+                                    text: "A Combination of Column & Line Chart"
+                                },
+                                  data: dataset
+
+                                  });
+
+                             chart.render();
+
+
+                        },
+                        error:function(data){console.log("failed");}
+
+                    });
+
+
+
+        }
+    </script>
+    <div>Hello world</div>
+<div id="chartContainer" style="height: 300px; width: 100%;">
+
+</div>
+</body>
+</html>
